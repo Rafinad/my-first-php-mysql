@@ -20,7 +20,11 @@ if (isset($_COOKIE["user_id"])) {
             $expires_at = $row["expires_at"];
         }
     if($expires_at < $now){
-        echo "<p>"."Сессия закрыта"."</p>"."<p>"."<a href='index.html'>На главную</a>"."</p>";
+        echo "<p>"."Сессия закрыта"."</p>"."<p>"."<a href='index.php'>На главную</a>"."</p>";
+        sleep(10);
+        header("Location: index.php");
+        setcookie("user_id", "",time()-1);
+        exit;
     }
     else{
         echo 
@@ -31,4 +35,9 @@ if (isset($_COOKIE["user_id"])) {
     }
 }
 }
-else echo "<p>"."Cookie не найден"."</p>"."<p>"."<a href='index.html'>На главную</a>"."</p>";
+else{
+    echo "<p>"."Cookie не найден"."</p>"."<p>"."<a href='index.php'>На главную</a>"."</p>";
+    sleep(10);
+    header("Location: index.php");
+    exit;
+} 

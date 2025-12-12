@@ -1,5 +1,7 @@
 <?php
 $SQLmydb = mysqli_connect("127.0.0.1", "rafinadik", "Password1","mydb",3306);
+$username = 0;
+$password_from_HTML = 0;
 $authorization = false;
 $ALLuser = "SELECT u.username as username, GROUP_CONCAT(g.name_group separator '|') as role
 FROM 
@@ -23,12 +25,12 @@ if($authorization == true) {
     $randomBytes = random_bytes(16);
     $hashUser = bin2hex($randomBytes);
     $now = time();
-    $expired = $now+10;
+    $expired = $now+3600;
     $expires_at = date("Y-m-d H:i:s", $expired);
     $SQLmydb->query("INSERT INTO session (user_user_id, session_hash,expires_at) VALUES ($user_id,'$hashUser','$expires_at')");
-    setcookie("user_id", $hashUser);
+    if (!isset($_COOKIE["user_id"])) setcookie("user_id", $hashUser);
     echo "<p>"."Успешная авторизация"."</p>"."<p>"."<a href='profile.php'>Профиль пользователя</a>"."</p>";
 }
-else echo "<p>"."Ошибка авторизации"."</p>"."<p>"."<a href='index.html'>На главную</a>"."</p>";
+else echo "<p>"."Ошибка авторизации"."</p>"."<p>"."<a href='index.php'>На главную</a>"."</p>";
 
 ?>
